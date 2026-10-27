@@ -11,6 +11,21 @@ const PORT = process.env.PORT || 3000;
 const HOST_PASSWORD = process.env.HOST_PASSWORD || 'altera-esta-palavra-passe';
 const rooms = new Map();
 app.use(express.static(path.join(__dirname, 'public')));
+app.get('/', (_req, res) =>
+  res.sendFile(path.join(__dirname, 'index.html'))
+);
+
+app.get('/index.html', (_req, res) =>
+  res.sendFile(path.join(__dirname, 'index.html'))
+);
+
+app.get('/style.css', (_req, res) =>
+  res.sendFile(path.join(__dirname, 'style.css'))
+);
+
+app.get('/app.js', (_req, res) =>
+  res.sendFile(path.join(__dirname, 'app.js'))
+);
 app.get('/health', (_req,res) => res.json({ok:true}));
 app.get('/config', (_req,res) => res.json({ iceServers: [ { urls: 'stun:stun.l.google.com:19302' }, ...(process.env.TURN_URL ? [{urls:process.env.TURN_URL, username:process.env.TURN_USERNAME || '', credential:process.env.TURN_CREDENTIAL || ''}] : []) ] }));
 const code = () => crypto.randomBytes(4).toString('base64url').toUpperCase().replace(/[^A-Z0-9]/g,'').slice(0,6);
